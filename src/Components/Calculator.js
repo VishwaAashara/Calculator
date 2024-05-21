@@ -48,13 +48,37 @@ function Calculator() {
 
     const calculate = () =>{
         try{
-            setVal(eval(val).toString());
+            const result= evaluate(val);
+            setVal(result.toString());
+            
+        }catch(error) {
+            setVal("Error")
         }
-        catch(error){
-            setVal("Error");
-        }
-        
     }
+
+    const evaluate = (e) =>{
+    const expression = e.split(/([+\-*/])/).filter(Boolean);
+    for(let i=0;i<expression.length;i++){
+        if(expression[i] === '*' || expression[i]==="/"){
+            const left = parseFloat(expression[i-1]);
+            const right = parseFloat(expression[i+1]);
+            const result = expression[i] === '*' ? left*right : left/right;
+            expression.splice(i-1,3,result.toString());
+            i=i-1;
+        }
+    }
+
+    for(let i=0;i<expression.length;i++){
+        if(expression[i] === '+' || expression[i]==='-'){
+            const left = parseFloat(expression[i-1]);
+            const right =  parseFloat(expression[i+1]);
+            const result = expression[i] === '+' ? left+right : left-right;
+            expression.splice(i-1,3,result.toString());
+            i=i-1; 
+        }
+    }
+    return expression[0];
+};
 
     const backspace = () =>{
         try {
