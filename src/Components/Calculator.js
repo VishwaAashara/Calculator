@@ -47,43 +47,14 @@ function Calculator() {
     }
 
     const calculate = () =>{
-        try {
-            const result = evaluateExpression(val);
-            setVal(result.toString());
-        } catch (error) {
+        try{
+            setVal(eval(val).toString());
+        }
+        catch(error){
             setVal("Error");
         }
+        
     }
-
-    const evaluateExpression = (expression) => {
-        // Split the expression by the operators and keep the operators in the array
-        const tokens = expression.split(/([+\-*/])/).filter(Boolean);
-        if (tokens.length % 2 === 0) throw new Error("Invalid expression");
-
-        let result = parseFloat(tokens[0]);
-        for (let i = 1; i < tokens.length; i += 2) {
-            const operator = tokens[i];
-            const nextValue = parseFloat(tokens[i + 1]);
-
-            switch (operator) {
-                case '+':
-                    result += nextValue;
-                    break;
-                case '-':
-                    result -= nextValue;
-                    break;
-                case '*':
-                    result *= nextValue;
-                    break;
-                case '/':
-                    result /= nextValue;
-                    break;
-                default:
-                    throw new Error("Invalid operator");
-            }
-        }
-        return result;
-    };
 
     const backspace = () =>{
         try {
